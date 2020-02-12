@@ -1,0 +1,71 @@
+import random
+
+system = True
+rock=list()
+paper=list()
+scissors=list()
+userScore=0
+computerScore=0
+userStreak=0
+computerStreak=0
+i=0
+while system:   
+    if len(rock)>0 or len(paper)>0 or len(scissors)>0:#opponent chooses rps
+        if len(rock)>len(paper):
+            computerPick="p"
+        elif len(paper)>len(scissors):
+            computerPick="s"
+        else:
+            computerPick="r"      
+    else:
+        x = random.randint(1,3)
+        if x==1:
+            computerPick="r"
+        elif x==2:
+            computerPick="p"
+        else:
+            computerPick="s"
+    userInput=input("Rock, paper, or scissors? (r/p/s):  ")#user chooses rps  
+    if userInput.find("r")!=-1:
+        rock.append(userInput)
+    elif userInput.find("p")!=-1:
+        paper.append(userInput)
+    elif userInput.find("s")!=-1:
+        scissors.append(userInput)
+    elif userInput.find("uit")!=-1:
+        system=False
+    else: 
+        print("Incorrect input. Try again.")
+    if computerPick.find("r")!=-1 and userInput.find("s")!=-1:#scoring
+        computerScore+=1
+        userStreak=0
+        computerStreak+=1
+    elif computerPick.find("s")!=-1 and userInput.find("p")!=-1:
+        computerScore+=1
+        userStreak=0
+        computerStreak+=1
+    elif computerPick.find("p")!=-1 and userInput.find("r")!=-1:
+        computerScore+=1
+        userStreak=0
+        computerStreak+=1
+    elif computerPick.find(userInput)!=-1:
+        print("Draw")
+    else:
+        userScore+=1
+        userStreak+=1
+        computerStreak=0
+    if i<3:
+        if userScore>computerScore+2 and computerStreak==0:#resets strat
+            rock.clear()
+            paper.clear()
+            scissors.clear()
+            i=0
+        if userStreak>=2:
+            rock.clear()
+            paper.clear()
+            scissors.clear()
+            i=0
+    else:
+        i+=1
+    print("Computer Pick: ", computerPick)
+    print("User: ", userScore, "Computer: ", computerScore,"\n")
