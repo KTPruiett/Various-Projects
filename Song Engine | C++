@@ -1,0 +1,71 @@
+// SongEngine.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+#include <string> 
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+
+string findSong(string s) {//identifies the next song to be played
+	std::vector<std::string> allSongs;
+	std::vector<std::string> shuffle;
+	srand(time(NULL));
+	//song artist album genre
+	allSongs.push_back("Girls Like You, Maroon 5, LOVE, Genre: Rock");//loads song to total songs available
+	allSongs.push_back("Nice For What, Drake, Scorpion, Genre: Rap");
+	allSongs.push_back("Up Down, Morgan Wallen, If I Know Me, Genre: Country");
+	allSongs.push_back("Forever Decay, The Devil Wears Prada, Dead Throne, Genre: Metal");
+	allSongs.push_back("Without Me, Hasley, Single, Genre: Pop");
+	allSongs.push_back("Song A, Clever Lycan, Undead Dead, Genre: Rock");
+	allSongs.push_back("Song B, CoolMan Juuh, Forever Asleep, Genre: Pop");
+	allSongs.push_back("Song C, Sad Cowboy, Golden Years, Genre: Country");
+	allSongs.push_back("Song D, Lil Yeetness, Yeetful Streets, Genre: Rap");
+	allSongs.push_back("Song E, Fallen Moose, Rotten Meat, Genre: Metal");
+	allSongs.push_back("Song F, We Are, Youth of a Nation, Genre: Pop");
+	allSongs.push_back("Song G, Artist G, Album G, Genre: Rock");
+	allSongs.push_back("Song H, Artist H, Album H, Genre: Rap");
+	allSongs.push_back("Song I, Artist I, Album I, Genre: Country");
+	allSongs.push_back("Song J, Artist J, Album J, Genre: Metal");
+	allSongs.push_back("Song K, Artist K, Album K, Genre: Pop");
+	allSongs.push_back("Song L, Artist L, Album L, Genre: Rock");
+	allSongs.push_back("Song M, Artist M, Album M, Genre: Rap");
+	allSongs.push_back("Song N, Artist N, Album N, Genre: Country");
+	allSongs.push_back("Song O, Artist O, Album O, Genre: Metal");
+	allSongs.push_back("Song P, Artist P, Album P, Genre: Pop");	
+	int randomNum = rand();
+	int g = 0;
+	for (int i = 0; i < allSongs.size(); i++) {//locates correct genre and puts them into shuffle 
+		if (allSongs[i].find(s, 0) != std::string::npos)
+		{
+			shuffle.push_back(allSongs[i]);//putting items into a new vector reduces time for random to find a song under a specific genre
+			g++;
+		}
+	}
+	int x = randomNum % g;//g is total number of songs loaded
+	return shuffle[x];//returns selected song under selected genre
+}
+int main()
+{
+	bool system = true;
+	while (system) {
+		string userGenre;
+		string userAnswer;
+		std::string test = "uit";
+		cout << "Please type in the genre of the next song you would like to listen to: ";
+		cin >> userGenre;
+		userGenre.replace(0, 1, "");//removing the first string position allows for a capital or lower case letter to be used in the genre requested
+		cout << "\nThank you. Please give me a moment while I find you a song.";
+		string x = findSong(userGenre);
+		cout << "\nHere is the song that I will have play next: " << x << "\n";
+		cout << "Would you like to find another song? ";
+		cin >> userAnswer;
+		userAnswer.replace(0, 1, "");//removing the first string position allows for a capital or lower case letter to be used in the genre requested
+		if (!userAnswer.find("o")) {
+			system = false;
+			cout << "Goodbye";
+		}
+	}
+}
