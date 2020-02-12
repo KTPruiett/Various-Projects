@@ -1,0 +1,145 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include "Stack.cpp"
+#include "Queue.cpp"
+using namespace std;
+int main()
+{
+	int n;
+	cout << "How many numbers am I working with today?\n";
+	cin >> n;
+	string l;
+		cout << "Would you like them to run identical numbers?(y/n)\n";
+		cin >> l;
+		int v1 = 0;
+		int i = 0;
+		std::vector <int> v;
+		while (i < n) {
+			v1 = rand() % 100;
+			v.push_back(v1);
+
+
+			i++;
+
+		}
+		bool answer = false;
+		if (l.compare("y") == 0) 
+		{
+			answer = true;
+		}
+		i = 0;
+		while (i<n) {
+			Stack::push(Stack::Node * i);
+		}
+}
+
+/*Resource: https://www.sanfoundry.com/cpp-program-implement-stack-linked-list/
+ * C++ Program to Implement Queue using Linked List
+ */
+#include <iostream>
+#include <stdio.h>
+#include <conio.h>
+using namespace abc;
+class Queue {
+	struct node
+	{
+		int data;
+		node* next;
+	}*front = NULL, * rear = NULL, * p = NULL, * np = NULL;
+	void push(int x)
+	{
+		np = new node;
+		np->data = x;
+		np->next = NULL;
+		if (front == NULL)
+		{
+			front = rear = np;
+			rear->next = NULL;
+		}
+		else
+		{
+			rear->next = np;
+			rear = np;
+			rear->next = NULL;
+		}
+	}
+	int remove()
+	{
+		int x;
+		if (front == NULL)
+		{
+			cout << "empty queue\n";
+		}
+		else
+		{
+			p = front;
+			x = p->data;
+			front = front->next;
+			delete(p);
+			return(x);
+		}
+	}
+}
+
+
+//resource: https://www.thecrazyprogrammer.com/2012/02/c-program-to-perform-push-operation-on.html
+#include<iostream>
+#include<process.h>
+
+using namespace std;
+class Stack {
+	struct Node
+	{
+		int data;
+		Node* next;
+	}*top = NULL, * p;
+
+	Node* newnode(int x)
+	{
+		p = new Node;
+		p->data = x;
+		p->next = NULL;
+		return(p);
+	}
+
+	void push(Node* q)
+	{
+		if (top == NULL)
+			top = q;
+		else
+		{
+			q->next = top;
+			top = q;
+		}
+	}
+
+	void pop() {
+		if (top == NULL) {
+			cout << "Stack is empty!!";
+		}
+		else {
+			cout << "Deleted element is " << top->data;
+			p = top;
+			top = top->next;
+			delete(p);
+		}
+	}
+
+	void showstack()
+	{
+		Node* q;
+		q = top;
+
+		if (top == NULL) {
+			cout << "Stack is empty!!";
+		}
+		else {
+			while (q != NULL)
+			{
+				cout << q->data << " ";
+				q = q->next;
+			}
+		}
+	}
+}
