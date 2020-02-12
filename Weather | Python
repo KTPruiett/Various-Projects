@@ -1,0 +1,34 @@
+import requests
+import re
+import json
+system = True
+while system:
+    count='10'
+    userInput=input("Type exit to leave or enter your city of choice: ")  
+    findExit = re.search(r'xit', userInput)
+    findTheExit = re.search(r'XIT', userInput)
+    if str(findExit)=='None' and str(findTheExit)=='None':
+        feeder = userInput
+        dataWant=input("\nThe system goes in intervals of 3 hours for weather.\n The standard is 10 intervals. Would you prefer more?\n Say no or type the number of intervals preferred up to 39 intervals: ")
+        dataResponse = re.search(r'O', dataWant)
+        dataRe = re.search(r'o', dataWant)
+        if str(dataResponse)=='None' and str(dataRe)=='None':
+                count=dataWant
+        weatherInfo = requests.get('https://api.openweathermap.org/data/2.5/forecast?q='+feeder+',us&appid=8d82a0867789cbfa5bd9effd38cb82f8&cnt='+count+'&units=imperial')
+        file = weatherInfo.json()
+        with open("Data.txt", "w") as outfile:
+             json.dump(file, outfile, indent=4)
+        with open('Data.txt', 'r') as fp:
+            data = json.load(fp)
+            for item in data['list']:
+                date = item['dt']
+                print('\nDate: ', item['dt_txt'])
+                print('Humidity: ',item['main']['humidity'],'%')
+                print('Temp: ',item['main']['temp'],'F')#temp in f
+                print('Wind Speed: ',item['wind']['speed'],'mph')
+    else:
+        print("System turning off, goodbye.")
+        system=False
+
+#https://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=YOUR_API_KEY
+#  8d82a0867789cbfa5bd9effd38cb82f8 api code
