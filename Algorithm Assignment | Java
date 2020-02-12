@@ -1,0 +1,137 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		int[][] processes = getArray();// requests processes
+		int[][] processesFCFS = processes.clone();// copies 2-D array to all others to separately work
+		int[][] processesSJF = processes.clone();// copies 2-D array to all others to separately work
+		int[][] processesNPPS = processes.clone();// copies 2-D array to all others to separately work
+		int[][] processesRR = processes.clone();// copies 2-D array to all others to separately work
+		System.out.println("Original Array: ");
+		for (int row = 0; row < processes.length; row++) {
+			System.out.println(
+					processes[row][0] + " | " + processes[row][1] + " | " + processes[row][2]);
+
+		}
+		System.out.println("Average turn around time for First Come First Serve: " + FCFS(processesFCFS));// First come First
+																									// Serve
+		System.out.println("Average turn around time for Shortest Job First: " + SJF(processesSJF));// Shortest Job First
+		System.out.println(
+				"Average turn around time for Non Preemptive Priority Scheduling: " + NonPrePriorityScheduling(processesNPPS)); // NonPreemptive Priority Scheduling
+		System.out.println("Turn around time for Round Robin: " + RoundRobin(processesRR));// Round Robin
+
+	}
+
+	public static double FCFS(int[][] processesFCFS) {// First Come First Serve
+		double turnTime = 0.0;
+		for (int row = 0; row < processesFCFS.length; row++) {// CPU "working" on process
+			int processComplete = processesFCFS[row][1];
+		}
+		for (int cycle = 0; cycle < processesFCFS.length; cycle++) {// gets turn around time
+			for (int row = 0; row <= cycle; row++) {
+				turnTime = turnTime + (double) processesFCFS[row][1];
+			}
+		}
+		turnTime = turnTime / (double) processesFCFS.length;// gets turn time number
+		return turnTime;
+	}
+
+	public static double SJF(int[][] processesSJF) {// Shortest Job First
+		double turnTime = 0.0;
+		for (int actualRow = 0; actualRow < processesSJF.length; actualRow++) {// organizes Processes by shortest Burst Time
+			for (int rowPlusOne = actualRow + 1; rowPlusOne < processesSJF.length; rowPlusOne++) {
+				if ((processesSJF[actualRow][1] > processesSJF[rowPlusOne][1]) && (actualRow != rowPlusOne)) {// organizes smallest to largest
+					int tmpRow[] = processesSJF[rowPlusOne];
+					processesSJF[rowPlusOne] = processesSJF[actualRow];
+					processesSJF[actualRow] = tmpRow;
+				}
+			}
+		}
+		for (int row = 0; row < processesSJF.length; row++) {// CPU "working" on process
+			int processComplete = processesSJF[row][1];
+		}
+		for (int cycle = 0; cycle < processesSJF.length; cycle++) {// gets turn around time
+			for (int row = 0; row <= cycle; row++) {
+				turnTime = turnTime + (double) processesSJF[row][1];
+			}
+		}
+		turnTime = turnTime / (double) processesSJF.length;// gets turn time number
+		return turnTime;
+	}
+
+	public static double NonPrePriorityScheduling(int[][] processesNPPS) {// Non Preemptive Priority Scheduling
+		double turnTime = 0.0;
+		for (int actualRow = 0; actualRow < processesNPPS.length; actualRow++) {// organizes Processes by Priority
+			for (int rowPlusOne = actualRow + 1; rowPlusOne < processesNPPS.length; rowPlusOne++) {
+				if ((processesNPPS[actualRow][2] < processesNPPS[rowPlusOne][2]) && (actualRow != rowPlusOne)) {// organizes largest to smallest
+					int tmpRow[] = processesNPPS[rowPlusOne];// begins switching
+					processesNPPS[rowPlusOne] = processesNPPS[actualRow];
+					processesNPPS[actualRow] = tmpRow;
+				}
+			}
+		}
+		for (int row = 0; row < processesNPPS.length; row++) {// CPU "working" on process
+			int processComplete = processesNPPS[row][1];
+		}
+		for (int cycle = 0; cycle < processesNPPS.length; cycle++) {// gets turn around time part 1
+			for (int row = 0; row <= cycle; row++) {
+				turnTime = turnTime + (double) processesNPPS[row][1];
+			}
+		}
+		turnTime = turnTime / (double) processesNPPS.length;// gets turn time number part 2
+		return turnTime;
+	}
+
+	public static double RoundRobin(int[][] processesRR) {// Round Robin
+		double turnTime = 0.0;
+		int cycle = 0;
+		int tempCycle = 0;
+		for (int row = 0; row < processesRR.length; row++) {// finds total burst time being used
+			cycle += processesRR[row][1];// adds each burst time to cycle
+		}
+		while (tempCycle < cycle) {// will do Round Robin until the # of bursts needed = # of cycles done
+			for (int row = 0; row < processesRR.length; row++) {// cpu "working" on process
+				if (processesRR[row][1] >= 1) {// will only enter if burst time is greater than 0
+					tempCycle += 1;// adds one to tempCycle/completing one burst unit
+					processesRR[row][1] -= 1;// removes one burst time from total burst time
+				}
+				if (processesRR[row][1] <= 0 && processesRR[row][2] != 99999) {
+					processesRR[row][0] = tempCycle;// gets time taken to complete
+					processesRR[row][2] = 99999;// makes sure the time taken to complete doesn't get changed later on in loop
+
+				}
+			}
+		}
+
+		for (int row = 0; row < processesRR.length; row++) {
+			turnTime = turnTime + (double) processesRR[row][0];// gets total number of times it took to complete
+		}
+		turnTime = turnTime / processesRR.length;
+		return turnTime;
+	}
+
+	private static int[][] getArray() {// requests array from user
+		int counter = 1;
+		int yPosition = 0;// y axis
+		Scanner s = new Scanner(System.in);
+		System.out.println("Welcome! Please enjoy your stay!\n");// welcome message
+		System.out.print("How many rows are in the list?: ");
+		int rows = s.nextInt();
+		int[][] arrStr = new int[rows][3];// adds number of requested rows
+		while (counter <= arrStr.length) {// gets data on each process
+			System.out.print("\nEnter Process ID Number: ");
+			int processID = s.nextInt();
+			arrStr[yPosition][0] = processID;// Process ID, burst time, priority
+			System.out.print("\nEnter Burst Time: ");
+			int burstTime = s.nextInt();
+			arrStr[yPosition][1] = burstTime;// Process ID, burst time, priority
+			System.out.print("\nEnter Priority Number: ");
+			int priorityNumber = s.nextInt();
+			arrStr[yPosition][2] = priorityNumber;// Process ID, burst time, priority
+			counter++;
+			yPosition++;
+		}
+		return arrStr;
+	}
+}
