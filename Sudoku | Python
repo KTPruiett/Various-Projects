@@ -1,3 +1,5 @@
+#Resource: Tech With Tim
+
 # Fill in the board that needs solved below and run the program. 
 board = [
     [9,7,0,0,0,5,1,0,6],
