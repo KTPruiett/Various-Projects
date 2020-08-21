@@ -29,6 +29,3 @@ while system:
     else:
         print("System turning off, goodbye.")
         system=False
-
-#https://api.openweathermap.org/data/2.5/weather?q=London,uk&appid=YOUR_API_KEY
-#  8d82a0867789cbfa5bd9effd38cb82f8 api code
