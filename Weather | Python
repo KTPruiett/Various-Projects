@@ -14,7 +14,7 @@ while system:
         dataRe = re.search(r'o', dataWant)
         if str(dataResponse)=='None' and str(dataRe)=='None':
                 count=dataWant
-        weatherInfo = requests.get('https://api.openweathermap.org/data/2.5/forecast?q='+feeder+',us&appid=8d82a0867789cbfa5bd9effd38cb82f8&cnt='+count+'&units=imperial')
+        weatherInfo = requests.get('https://api.openweathermap.org/data/2.5/forecast?q='+feeder+',us&appid=ENTER_YOUR_API_CODE_HERE&cnt='+count+'&units=imperial')
         file = weatherInfo.json()
         with open("Data.txt", "w") as outfile:
              json.dump(file, outfile, indent=4)
