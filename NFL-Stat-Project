@@ -1,0 +1,102 @@
+#This is currently a work in progress. The end goal is to reach at least 70% accuracy when asked who will win. Right now the program functions at a basic level.
+import csv
+import re
+nflStatsY20 = []
+nflStatsY19 = []
+nflStatsY18 = []
+team1Stats = []
+team2Stats = []
+def team_pick(argument):
+    switcher = {
+        1: "New England Patriots",
+        2: "Miami Dolphins",
+        3: "Buffalo Bills",
+        4: "New York Jets",
+        5: "Baltimore Ravens",
+        6: "Pittsburgh Steelers",
+        7: "Cleveland Browns",
+        8: "Cincinnati Bengals",
+        9: "Houston Texans",
+        10: "Indianapolis Colts",
+        11: "Tennessee Titans",
+        12: "Jacksonville Jaguars",
+        13: "Kansas City Chiefs",
+        14: "Los Angeles Chargers",
+        15: "Denver Broncos",
+        16: "Oakland Raiders",
+        17: "Dallas Cowboys",
+        18: "Philadelphia Eagles",
+        19: "Washington Redskins",
+        20: "New York Giants",
+        21: "Chicago Bears",
+        22: "Minnesota Vikings",
+        23: "Green Bay Packers",
+        24: "Detroit Lions",
+        25: "New Orleans Saints",
+        26: "Atlanta Falcons",
+        27: "Carolina Panthers",
+        28: "Tampa Bay Buccaneers",
+        29: "Los Angeles Rams",
+        30: "Seattle Seahawks",
+        31: "San Francisco 49ers",
+        32: "Arizona Cardinals"
+    }
+    return switcher.get(argument, "Invalid Team")
+print("Team options:\n1: New England Patriots\n2: Buffalo Bills\n3: New York Jets\n4: Miami Dolphins\n5: Baltimore Ravens\n6: Pittsburgh Steelers\n7:Cleveland Browns\n8: Cincinnati Bengals\n9:Houston Texans\n10:Tennessee Titans\n11: Indianapolis Colts\n12: Jacksonville Jaguars\n13: Kansas City Chiefs\n14: Denver Broncos\n15: Oakland Raiders\n16: Los Angeles Chargers\n17: Philadelphia Eagles\n18: Dallas Cowboys\n19: New York Giants\n20: Washington Redskins\n21: Green Bay Packers\n22: Minnesota Vikings\n23: Chicago Bears\n24: Detroit Lions\n25: New Orleans Saints\n26: Atlanta Falcons\n27: Tampa Bay Buccaneers\n28: Carolina Panthers\n29: San Francisco 49ers\n30: Seattle Seahawks\n31: Los Angeles Rams\n32: Arizona Cardinals")
+team1 = input("First team: ")
+team2 = input("Second team: ")
+with open('nfl-overall-2019.csv') as csvfile:#collects data
+    readCSV = csv.reader(csvfile, delimiter=',')
+    for row in readCSV:
+        str = row
+        nflStatsY19.append(row)
+
+with open('nfl-overall-2018.csv') as csvfile:#collects data
+    readCSV = csv.reader(csvfile, delimiter=',')
+    for row in readCSV:
+        str = row
+        nflStatsY18.append(row)
+
+for i in nflStatsY19:
+    if team_pick(int(team1)) in i:       
+        team1Stats.append(i)#entire row is 1 in length
+    if team_pick(int(team2)) in i:       
+        team2Stats.append(i)#entire row is 1 in length
+
+for i in nflStatsY18:
+    if team_pick(int(team1)) in i:      
+        team1Stats.append(i)#entire row is 1 in length
+    if team_pick(int(team2)) in i:
+        team2Stats.append(i)#entire row is 1 in length
+t1Y19 = " "#temp
+t1Y18 = " "#temp
+t2Y19 = " "#temp
+t2Y18 = " "#temp
+t1Y19 = t1Y19.join(team1Stats[0])
+t1Y18 = t1Y18.join(team1Stats[1])
+t2Y19 = t2Y19.join(team2Stats[0])
+t2Y18 = t2Y18.join(team2Stats[1])
+t1Y19 = re.findall('\d*\.?\d+',t1Y19)#keeps only numbers
+t1Y18 = re.findall('\d*\.?\d+',t1Y18)#keeps only numbers
+t2Y19 = re.findall('\d*\.?\d+',t2Y19)#keeps only numbers
+t2Y18 = re.findall('\d*\.?\d+',t2Y18)#keeps only numbers
+teamOneY19 = []
+teamTwoY19 = []
+teamOneY18 = []
+teamTwoY18 = []
+for item in t1Y19:#converts to float
+    teamOneY19.append(float(item))
+for item in t2Y19:#converts to float
+    teamTwoY19.append(float(item))
+for item in t1Y18:#converts to float
+    teamOneY18.append(float(item))
+for item in t2Y18:#converts to float
+    teamTwoY18.append(float(item))
+t1Result = []
+t2Result = []
+for i in range(12):#adds data together
+    t1Result.append(round(teamOneY19[i]+teamOneY18[i]*.5,2))
+    t2Result.append(round(teamTwoY19[i]+teamTwoY18[i]*.5,2))
+print(' W    | L |  T | W-L% | PF  | PA   |  PD  |  MoV | SoS | SRS | OSRS | DSRS')
+print(t1Result)
+print(t2Result)
