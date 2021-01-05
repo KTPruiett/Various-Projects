@@ -1,4 +1,4 @@
-#This is currently a work in progress. The end goal is to reach at least 70% accuracy when asked who will win. Right now the program functions at a basic level.
+#This is currently a work in progress. The end goal is to reach at least 70% accuracy when asked who will win. Right now the program functions at a very basic level.
 import csv
 import re
 nflStatsY20 = []
@@ -38,11 +38,11 @@ def team_pick(argument):
         28: "Tampa Bay Buccaneers",
         29: "Los Angeles Rams",
         30: "Seattle Seahawks",
-        31: "San Francisco 49ers",
+        31: "San Francisco FortyNine-ers",
         32: "Arizona Cardinals"
     }
     return switcher.get(argument, "Invalid Team")
-print("Team options:\n1: New England Patriots\n2: Buffalo Bills\n3: New York Jets\n4: Miami Dolphins\n5: Baltimore Ravens\n6: Pittsburgh Steelers\n7:Cleveland Browns\n8: Cincinnati Bengals\n9:Houston Texans\n10:Tennessee Titans\n11: Indianapolis Colts\n12: Jacksonville Jaguars\n13: Kansas City Chiefs\n14: Denver Broncos\n15: Oakland Raiders\n16: Los Angeles Chargers\n17: Philadelphia Eagles\n18: Dallas Cowboys\n19: New York Giants\n20: Washington Redskins\n21: Green Bay Packers\n22: Minnesota Vikings\n23: Chicago Bears\n24: Detroit Lions\n25: New Orleans Saints\n26: Atlanta Falcons\n27: Tampa Bay Buccaneers\n28: Carolina Panthers\n29: San Francisco 49ers\n30: Seattle Seahawks\n31: Los Angeles Rams\n32: Arizona Cardinals")
+print("Team options:\n1: New England Patriots\n2: Miami Dolphins\n3: Buffalo Bills\n4: New York Jets\n5: Baltimore Ravens\n6: Pittsburgh Steelers\n7: Cleveland Browns\n8: Cincinnati Bengals\n9: Houston Texans\n10: Indianapolis Colts\n11: Tennessee Titans\n12: Jacksonville Jaguars\n13: Kansas City Chiefs\n14: Los Angeles Chargers\n15: Denver Broncos\n16: Oakland Raiders\n17: Dallas Cowboys\n18: Philadelphia Eagles\n19: Washington Redskins\n20: New York Giants\n21: Chicago Bears\n22: Minnesota Vikings\n23: Green Bay Packers\n24: Detroit Lions\n25: New Orleans Saints\n26: Atlanta Falcons\n27: Carolina Panthers\n28: Tampa Bay Buccaneers\n29: Los Angeles Rams\n30: Seattle Seahawks\n31: San Francisco 49ers\n32: Arizona Cardinals")
 team1 = input("First team: ")
 team2 = input("Second team: ")
 with open('nfl-overall-2019.csv') as csvfile:#collects data
