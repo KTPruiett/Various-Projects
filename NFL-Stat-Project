@@ -1,4 +1,6 @@
 #This is currently a work in progress. The end goal is to reach at least 70% accuracy when asked who will win. Right now the program functions at a very basic level.
+#Update: First week of 2020 season it correctly projected the outcome of 13 out of 16 games. Accuracy is currently at 81%. 
+#I will use weeks 1, 6, 11, and 16 to look at its accuracy over a period of time. Next I am working on adding a player option to increase accuracy.
 import csv
 import re
 nflStatsY20 = []
@@ -97,6 +99,38 @@ t2Result = []
 for i in range(12):#adds data together
     t1Result.append(round(teamOneY19[i]+teamOneY18[i]*.5,2))
     t2Result.append(round(teamTwoY19[i]+teamTwoY18[i]*.5,2))
-print(' W    | L |  T | W-L% | PF  | PA   |  PD  |  MoV | SoS | SRS | OSRS | DSRS')
+print(' W    | L |  T | W-L% | PF  | PA   |  PD  |  MoV | SoS | SRS | OSRS | DSRS')#prints overview
 print(t1Result)
 print(t2Result)
+#Breakdown who has better overall stats 
+#Highest: wins, WL, PF, PD, MOV, SRS, OSRS, DSRS
+#Lowest: Loss, tie, PA, SOS
+t1Score = 0
+t2Score = 0
+for i in range(12):#calculates who is the most likely to win
+    #print(t1Result[i])
+    if i != 1 and i != 5 and i != 8 and i != 2:#finding greatest
+        if t1Result[i] > t2Result[i]:#t1 high
+            t1Score += 1
+        elif t1Result[i] < t2Result[i]:#t2 high
+            t2Score += 1
+        else:#tie | this keeps scores consistent for all possible combos
+            t1Score += 0
+            t2Score += 0
+    else:#finding lowest
+        if t1Result[i] < t2Result[i]:#t1 low
+            t1Score += 1
+        elif t1Result[i] > t2Result[i]:#t2 low
+            t2Score += 1
+        else:#tie | this keeps scores consistent for all possible combos
+            t1Score += 0
+            t2Score += 0
+if t1Score > t2Score:#t1 win
+    print("Team 1 is most likely to win!")
+    print("Team 1 scored:",t1Score," points\nTeam 2 scored: ",t2Score," points")
+elif t1Score < t2Score:#t2 win
+    print("Team 2 is most likely to win!")
+    print("Team 1 scored:",t1Score," points\nTeam 2 scored: ",t2Score," points")
+else:
+    print("It's too close to decide")
+#next: take w l t pf and on and find what is better to have as a better stat
