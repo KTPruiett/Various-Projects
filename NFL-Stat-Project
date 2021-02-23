@@ -1,6 +1,7 @@
 #This is currently a work in progress. The end goal is to reach at least 70% accuracy when asked who will win. Right now the program functions at a very basic level.
 #Update: First week of 2020 season it correctly projected the outcome of 13 out of 16 games. Accuracy is currently at 81%. 
 #I will use weeks 1, 6, 11, and 16 to look at its accuracy over a period of time. Next I am working on adding a player option to increase accuracy.
+#I am using https://www.pro-football-reference.com/ for my data collection
 import csv
 import re
 nflStatsY20 = []
