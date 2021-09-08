@@ -1,138 +1,15 @@
-#This is currently a work in progress. The end goal is to reach at least 70% accuracy when asked who will win. Right now the program functions at a basic level.
-#Update: First week of 2020 season it correctly projected the outcome of 13 out of 16 games. Accuracy is currently at 81%. 
-#Update: Currently working on adding player data in. Once I have it running I will update my code. At the moment, starting player data will be based primarily on value and stats with an option to remove them if they are injured. 
 #I am using https://www.pro-football-reference.com/ for my data collection
 
-import csv
-import re
-nflStatsY20 = []
-nflStatsY19 = []
-nflStatsY18 = []
-team1Stats = []
-team2Stats = []
-def team_pick(argument):
-    switcher = {
-        1: "New England Patriots",
-        2: "Miami Dolphins",
-        3: "Buffalo Bills",
-        4: "New York Jets",
-        5: "Baltimore Ravens",
-        6: "Pittsburgh Steelers",
-        7: "Cleveland Browns",
-        8: "Cincinnati Bengals",
-        9: "Houston Texans",
-        10: "Indianapolis Colts",
-        11: "Tennessee Titans",
-        12: "Jacksonville Jaguars",
-        13: "Kansas City Chiefs",
-        14: "Los Angeles Chargers",
-        15: "Denver Broncos",
-        16: "Oakland Raiders",
-        17: "Dallas Cowboys",
-        18: "Philadelphia Eagles",
-        19: "Washington Redskins",
-        20: "New York Giants",
-        21: "Chicago Bears",
-        22: "Minnesota Vikings",
-        23: "Green Bay Packers",
-        24: "Detroit Lions",
-        25: "New Orleans Saints",
-        26: "Atlanta Falcons",
-        27: "Carolina Panthers",
-        28: "Tampa Bay Buccaneers",
-        29: "Los Angeles Rams",
-        30: "Seattle Seahawks",
-        31: "San Francisco FortyNine-ers",
-        32: "Arizona Cardinals"
-    }
-    return switcher.get(argument, "Invalid Team")
-print("Team options:\n1: New England Patriots\n2: Miami Dolphins\n3: Buffalo Bills\n4: New York Jets\n5: Baltimore Ravens\n6: Pittsburgh Steelers\n7: Cleveland Browns\n8: Cincinnati Bengals\n9: Houston Texans\n10: Indianapolis Colts\n11: Tennessee Titans\n12: Jacksonville Jaguars\n13: Kansas City Chiefs\n14: Los Angeles Chargers\n15: Denver Broncos\n16: Oakland Raiders\n17: Dallas Cowboys\n18: Philadelphia Eagles\n19: Washington Redskins\n20: New York Giants\n21: Chicago Bears\n22: Minnesota Vikings\n23: Green Bay Packers\n24: Detroit Lions\n25: New Orleans Saints\n26: Atlanta Falcons\n27: Carolina Panthers\n28: Tampa Bay Buccaneers\n29: Los Angeles Rams\n30: Seattle Seahawks\n31: San Francisco 49ers\n32: Arizona Cardinals")
-team1 = input("First team: ")
-team2 = input("Second team: ")
-with open('nfl-overall-2019.csv') as csvfile:#collects data
-    readCSV = csv.reader(csvfile, delimiter=',')
-    for row in readCSV:
-        str = row
-        nflStatsY19.append(row)
+#This is currently a work in progress. The end goal is to reach at least 70% accuracy when asked who will win. Right now the program functions at a basic level.
+#Update: Out of the first 16 games of the 2020 season 13 were predicted correctly.
+#Update: Removed code from public view. Available upon request. 
 
-with open('nfl-overall-2018.csv') as csvfile:#collects data
-    readCSV = csv.reader(csvfile, delimiter=',')
-    for row in readCSV:
-        str = row
-        nflStatsY18.append(row)
+#During 2021 season I will be doing a full season test. 
 
-for i in nflStatsY19:
-    if team_pick(int(team1)) in i:       
-        team1Stats.append(i)#entire row is 1 in length
-    if team_pick(int(team2)) in i:       
-        team2Stats.append(i)#entire row is 1 in length
+Total lines in code: 122
 
-for i in nflStatsY18:
-    if team_pick(int(team1)) in i:      
-        team1Stats.append(i)#entire row is 1 in length
-    if team_pick(int(team2)) in i:
-        team2Stats.append(i)#entire row is 1 in length
-t1Y19 = " "#temp
-t1Y18 = " "#temp
-t2Y19 = " "#temp
-t2Y18 = " "#temp
-t1Y19 = t1Y19.join(team1Stats[0])
-t1Y18 = t1Y18.join(team1Stats[1])
-t2Y19 = t2Y19.join(team2Stats[0])
-t2Y18 = t2Y18.join(team2Stats[1])
-t1Y19 = re.findall('\d*\.?\d+',t1Y19)#keeps only numbers
-t1Y18 = re.findall('\d*\.?\d+',t1Y18)#keeps only numbers
-t2Y19 = re.findall('\d*\.?\d+',t2Y19)#keeps only numbers
-t2Y18 = re.findall('\d*\.?\d+',t2Y18)#keeps only numbers
-teamOneY19 = []
-teamTwoY19 = []
-teamOneY18 = []
-teamTwoY18 = []
-for item in t1Y19:#converts to float
-    teamOneY19.append(float(item))
-for item in t2Y19:#converts to float
-    teamTwoY19.append(float(item))
-for item in t1Y18:#converts to float
-    teamOneY18.append(float(item))
-for item in t2Y18:#converts to float
-    teamTwoY18.append(float(item))
-t1Result = []
-t2Result = []
-for i in range(12):#adds data together
-    t1Result.append(round(teamOneY19[i]+teamOneY18[i]*.5,2))
-    t2Result.append(round(teamTwoY19[i]+teamTwoY18[i]*.5,2))
-print(' W    | L |  T | W-L% | PF  | PA   |  PD  |  MoV | SoS | SRS | OSRS | DSRS')#prints overview
-print(t1Result)
-print(t2Result)
-#Breakdown who has better overall stats 
-#Highest: wins, WL, PF, PD, MOV, SRS, OSRS, DSRS
-#Lowest: Loss, tie, PA, SOS
-t1Score = 0
-t2Score = 0
-for i in range(12):#calculates who is the most likely to win
-    #print(t1Result[i])
-    if i != 1 and i != 5 and i != 8 and i != 2:#finding greatest
-        if t1Result[i] > t2Result[i]:#t1 high
-            t1Score += 1
-        elif t1Result[i] < t2Result[i]:#t2 high
-            t2Score += 1
-        else:#tie | this keeps scores consistent for all possible combos
-            t1Score += 0
-            t2Score += 0
-    else:#finding lowest
-        if t1Result[i] < t2Result[i]:#t1 low
-            t1Score += 1
-        elif t1Result[i] > t2Result[i]:#t2 low
-            t2Score += 1
-        else:#tie | this keeps scores consistent for all possible combos
-            t1Score += 0
-            t2Score += 0
-if t1Score > t2Score:#t1 win
-    print("Team 1 is most likely to win!")
-    print("Team 1 scored:",t1Score," points\nTeam 2 scored: ",t2Score," points")
-elif t1Score < t2Score:#t2 win
-    print("Team 2 is most likely to win!")
-    print("Team 1 scored:",t1Score," points\nTeam 2 scored: ",t2Score," points")
-else:
-    print("It's too close to decide")
-#next: take w l t pf and on and find what is better to have as a better stat
+#2021 Game Predictions Current Accuracy: NA
+
+Date: 09/09/2021 
+Predicted Winner: Tampa Bay Buccaneers
+Actual Winner: 
