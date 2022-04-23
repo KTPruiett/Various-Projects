@@ -1,3 +1,5 @@
+#Currently being remodeled
+
 from random import seed
 from random import randint
 global game, board, userTurn, firstRound, defLeftV, defRightV, defMidV, defTopH, defMidH, defBottomH, offLeftV, offRightV, offMidV, offTopH, offMidH, offBottomH, offAngleLeft, offAngleRight, defAngleLeft, defAngleRight, offTlbm, offTlmr, offTrbm, offTrml, offTmbr, offTmbl, offMlbr, offMrbl, defMrbl, defMlbr, defTmbl, defTmbr, defTrml, defTrbm, defTlmr, defTlbm, round, coinFlip
