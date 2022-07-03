@@ -1,176 +1,175 @@
-#Currently being remodeled
-
 from random import seed
 from random import randint
-global game, board, userTurn, firstRound, defLeftV, defRightV, defMidV, defTopH, defMidH, defBottomH, offLeftV, offRightV, offMidV, offTopH, offMidH, offBottomH, offAngleLeft, offAngleRight, defAngleLeft, defAngleRight, offTlbm, offTlmr, offTrbm, offTrml, offTmbr, offTmbl, offMlbr, offMrbl, defMrbl, defMlbr, defTmbl, defTmbr, defTrml, defTrbm, defTlmr, defTlbm, round, coinFlip
+
 board = [
-[" "," "," "],
-[" "," "," "],
-[" "," "," "]
+    [" ", " ", " "],
+    [" ", " ", " "],
+    [" ", " ", " "]
 ]
-userTurn = True
-firstRound = True
-defLeftV = True
-defRightV = True
-defMidV = True
-defTopH = True
-defMidH = True
-defBottomH = True
-offLeftV= True
-offRightV = True
-offMidV = True
-offTopH = True 
-offMidH = True
-offBottomH = True
-offAngleLeft = True
-offAngleRight = True
-defAngleLeft = True
-defAngleRight = True
-offTlbm = True 
-offTlmr = True
-offTrbm = True
-offTrml = True
-offTmbr = True
-offTmbl = True
-offMlbr = True
-offMrbl = True
-defMrbl = True
-defMlbr = True
-defTmbl = True
-defTmbr = True
-defTrml = True
-defTrbm = True
-defTlmr = True
-defTlbm = True
-round = True
+user_turn = True
+first_round = True
+left_vertical = True
+right_vertical = True
+mid_vertical = True
+top_horizontal = True
+mid_horizontal = True
+bottom_horizontal = True
+left_angle = True
+right_angle = True
+top_left_bottom_middle = True
+top_left_middle_right = True
+top_right_bottom_middle = True
+top_right_middle_left = True
+top_middle_bottom_right = True
+top_middle_bottom_left = True
+middle_left_bottom_right = True
+middle_right_bottom_left = True
+top_left_bottom_right = True
+top_right_bottom_left = True
+turn = True
+defense = True
 game = True
 coinFlip = 0
-def displayBoard():
+xAndO = 'O'
+
+
+def display_board():
     for i in range(3):
-        print(" "+board[i][0]+" | "+board[i][1]+" | "+board[i][2])
-        if i <2:
+        print(" " + board[i][0] + " | " + board[i][1] + " | " + board[i][2])
+        if i < 2:
             print(" __|___|__")
         else:
-            print(" ")            
+            print(" ")
+
+
 def coin():
-    global coinFlip
-    coinFlip = randint(0,1)# decides who will play first
+    global coinFlip, defense
+    coinFlip = randint(0, 1)  # decides who will play first
+    if coinFlip == 0:
+        defense = False
+
+
 def run():
-    global game, board, userTurn, firstRound, defLeftV, defRightV, defMidV, defTopH, defMidH, defBottomH, offLeftV, offRightV, offMidV, offTopH, offMidH, offBottomH, offAngleLeft, offAngleRight, defAngleLeft, defAngleRight, offTlbm, offTlmr, offTrbm, offTrml, offTmbr, offTmbl, offMlbr, offMrbl, defMrbl, defMlbr, defTmbl, defTmbr, defTrml, defTrbm, defTlmr, defTlbm, round, coinFlip
+    global game, xAndO, board, user_turn, first_round, left_vertical, right_vertical, mid_vertical, top_horizontal, mid_horizontal, bottom_horizontal, left_angle, right_angle, defAngleLeft, defAngleRight, top_left_bottom_middle, top_left_middle_right, top_right_bottom_middle, top_right_middle_left, top_middle_bottom_right, top_middle_bottom_left, middle_left_bottom_right, middle_right_bottom_left, turn, defense, coinFlip
+
     while game:
-        displayBoard()
+        display_board()
         coin()
-        while round:
-            if coinFlip == 1:                
+        while turn:
+            if coinFlip == 1:
                 coinFlip = 0
                 user()
-                displayBoard()
-                checkWin()
+                display_board()
+                check_win()
             else:
                 coinFlip = 1
                 opponent()
-                firstRound = False
-                displayBoard()
-                checkWin()
+                first_round = False
+                display_board()
+                check_win()
         else:
-            r = input("Would you like to play again? (Y/N)")
-            asking = True
-            while asking:
-                if r == "Y" or r == 'y':
-                    asking = False
-                    userTurn = True
-                    firstRound = True
-                    defLeftV = True
-                    defRightV = True
-                    defMidV = True
-                    defTopH = True
-                    defMidH = True
-                    defBottomH = True
-                    offLeftV= True
-                    offRightV = True
-                    offMidV = True
-                    offTopH = True 
-                    offMidH = True
-                    offBottomH = True
-                    offAngleLeft = True
-                    offAngleRight = True
-                    defAngleLeft = True
-                    defAngleRight = True
-                    offTlbm = True 
-                    offTlmr = True
-                    offTrbm = True
-                    offTrml = True
-                    offTmbr = True
-                    offTmbl = True
-                    offMlbr = True
-                    offMrbl = True
-                    defMrbl = True
-                    defMlbr = True
-                    defTmbl = True
-                    defTmbr = True
-                    defTrml = True
-                    defTrbm = True
-                    defTlmr = True
-                    defTlbm = True
-                    round = True
-                    game = True
-                    for i in range(3):
-                        for j in range(3):
-                            board[i][j] = " "
-                elif r == "N" or r == 'n':
-                    break
-                else:
-                    print("This was not Y or N")
-           
-def checkWin(): # checks if someone won
-    global board, round
+            game_reset()
+
+def game_reset():
+    global game, xAndO,top_right_bottom_left, top_left_bottom_right, board, user_turn, first_round, left_vertical, right_vertical, mid_vertical, top_horizontal, mid_horizontal, bottom_horizontal, left_angle, right_angle, top_left_bottom_middle, top_left_middle_right, top_right_bottom_middle, top_right_middle_left, top_middle_bottom_right, top_middle_bottom_left, middle_left_bottom_right, middle_right_bottom_left, turn, defense, coinFlip1
+    asking = True
+    while asking:
+        response = input("Would you like to play again? (Y/N)")
+        if response == "Y" or response == 'y':
+            asking = False
+            user_turn = True
+            first_round = True
+            left_vertical = True
+            right_vertical = True
+            mid_vertical = True
+            top_horizontal = True
+            mid_horizontal = True
+            bottom_horizontal = True
+            left_angle = True
+            right_angle = True
+            top_left_bottom_middle = True
+            top_left_middle_right = True
+            top_right_bottom_middle = True
+            top_right_middle_left = True
+            top_middle_bottom_right = True
+            top_middle_bottom_left = True
+            middle_left_bottom_right = True
+            middle_right_bottom_left = True
+            top_left_bottom_right = True
+            top_right_bottom_left = True
+            turn = True
+            defense = True
+            game = True
+            xAndO = 'O'
+            for i in range(3):
+                for j in range(3):
+                    board[i][j] = " "
+        elif response == "N" or response == 'n':
+            game = False
+            asking = False
+        else:
+            print("This was not Y or N")
+
+def check_win():  # checks if someone won
+    global board, turn
     count = 0
-    for i in range(3):# horizontal check
+    for i in range(3):  # horizontal check
         for j in range(1):
-            if board[i][j] == 'X' and board[i][j+1] == 'X' and board[i][j+2] == 'X':# yx
+            if board[i][j] == 'X' and board[i][j + 1] == 'X' and board[i][j + 2] == 'X':  # yx
                 print("You won!")
                 j = 4
                 i = 4
-                round = False                
-            elif board[i][j] == 'O' and board[i][j+1] == 'O' and board[i][j+2] == 'O':
+                turn = False
+                return
+            elif board[i][j] == 'O' and board[i][j + 1] == 'O' and board[i][j + 2] == 'O':
                 print("They won!")
                 j = 4
-                i = 4                   
-                round = False                
-    for i in range(3):# vertical check
+                i = 4
+                turn = False
+                return
+    for i in range(3):  # vertical check
         for j in range(1):
-            if board[j][i] == 'X' and board[j+1][i] == 'X' and board[j+2][i] == 'X':
+            if board[j][i] == 'X' and board[j + 1][i] == 'X' and board[j + 2][i] == 'X':
                 print("You won!")
-                round = False
-            elif board[j][i] == 'O' and board[j+1][i] == 'O' and board[j+2][i] == 'O':
+                turn = False
+                return
+            elif board[j][i] == 'O' and board[j + 1][i] == 'O' and board[j + 2][i] == 'O':
                 print("They won!")
-                round = False
-    if board[0][0] == 'X' and board[1][1] == 'X' and board[2][2] == 'X':# angle check
+                turn = False
+                return
+    if board[0][0] == 'X' and board[1][1] == 'X' and board[2][2] == 'X':  # angle check
         print("You won!")
-        round = False
+        turn = False
+        return
     elif board[0][0] == 'O' and board[1][1] == 'O' and board[2][2] == 'O':
         print("They won!")
-        round = False
+        turn = False
+        return
     elif board[0][2] == 'X' and board[1][1] == 'X' and board[2][0] == 'X':
         print("You won!")
-        round = False
+        turn = False
+        return
     elif board[0][2] == 'O' and board[1][1] == 'O' and board[2][0] == 'O':
         print("They won!")
-        round = False
-    for i in range(3):# draw check
+        turn = False
+        return
+    for i in range(3):  # draw check
         for j in range(3):
             if board[i][j] != " ":
                 count += 1
     if count == 9:
-        round = False
+        turn = False
         count = 0
         print("It's a draw!")
+        return
     else:
         count = 0
+        return
+
 
 def user():
-    global game, board, userTurn
-    while userTurn:
+    global game, board, user_turn
+    while user_turn:
         r = input("Please choose a location to place an 'X' on (Hint: board reads 1-9 left to right): ")
         if int(r) == 1:
             if board[0][0] == " ":
@@ -178,50 +177,50 @@ def user():
                 return
             else:
                 print("Incorrect location! This spot is no longer empty!")
-        elif int(r)==2:
+        elif int(r) == 2:
             if board[0][1] == " ":
                 board[0][1] = 'X'
                 return
             else:
                 print("Incorrect location! This spot is no longer empty, try again!")
-        elif int(r)==3:
-            if board[0][2]  == " ":
-                board[0][2]='X'
+        elif int(r) == 3:
+            if board[0][2] == " ":
+                board[0][2] = 'X'
                 return
             else:
                 print("Incorrect location! This spot is no longer empty, try again!")
-        elif int(r)==4:
-            if board[1][0]  == " ":
+        elif int(r) == 4:
+            if board[1][0] == " ":
                 board[1][0] = 'X'
                 return
             else:
                 print("Incorrect location! This spot is no longer empty, try again!")
-        elif int(r)==5:
-            if board[1][1]  == " ":
+        elif int(r) == 5:
+            if board[1][1] == " ":
                 board[1][1] = 'X'
                 return
             else:
                 print("Incorrect location! This spot is no longer empty, try again!")
-        elif int(r)==6:
-            if board[1][2]  == " ":
+        elif int(r) == 6:
+            if board[1][2] == " ":
                 board[1][2] = 'X'
                 return
             else:
                 print("Incorrect location! This spot is no longer empty, try again!")
-        elif int(r)==7:
-            if board[2][0]   == " ":
+        elif int(r) == 7:
+            if board[2][0] == " ":
                 board[2][0] = 'X'
                 return
             else:
                 print("Incorrect location! This spot is no longer empty, try again!")
-        elif int(r)==8:
-            if board[2][1]  == " ":
+        elif int(r) == 8:
+            if board[2][1] == " ":
                 board[2][1] = 'X'
                 return
             else:
                 print("Incorrect location! This spot is no longer empty, try again!")
-        elif int(r)==9:
-            if board[2][2]  == " ":
+        elif int(r) == 9:
+            if board[2][2] == " ":
                 board[2][2] = 'X'
                 return
             else:
@@ -229,345 +228,249 @@ def user():
         else:
             print("This is not between 1 and 9. Try again.")
 
+
 def opponent():
-    global board, firstRound, defLeftV, defRightV, defMidV, defTopH, defMidH, defBottomH, offLeftV, offRightV, offMidV, offTopH, offMidH, offBottomH, offAngleLeft, offAngleRight, defAngleLeft, defAngleRight, offTlbm, offTlmr, offTrbm, offTrml, offTmbr, offTmbl, offMlbr, offMrbl, defMrbl, defMlbr, defTmbl, defTmbr, defTrml, defTrbm, defTlmr, defTlbm
-    print("Oppenent is choosing...\n")
-    # offensive strats below-----------------------------------------------------            
-    if offTopH:
-        if board[0][0] == 'O' and board[0][1] == 'O' or board[0][1] == 'O' and board[0][2] == 'O' or board[0][0] == 'O' and board[0][2] == 'O':#Top H
-            for i in range(3):
-                if board[0][i] == " ":
-                    board[0][i] = 'O'                    
-                    offTopH = False   
-                    return
-    if offMidH:
-        if board[1][0] == 'O' and board[1][1] == 'O' or board[1][1] == 'O' and board[1][2] == 'O' or board[1][0] == 'O' and board[1][2] == 'O':#Mid H
-            for i in range(3):
-                if board[1][i] == " ":
-                    board[1][i] = 'O'                    
-                    offMidH = False  
-                    return
-    if offBottomH:
-        if board[2][0] == 'O' and board[2][1] == 'O' or board[2][1] == 'O' and board[2][2] == 'O' or board[2][0] == 'O' and board[2][2] == 'O':#Low H
-            for i in range(3):
-                if board[2][i] == " ":
-                    board[2][i] = 'O'                    
-                    offBottomH = False
-                    return
-# --------------------------------------vertical            
-    if offLeftV:
-        if board[0][0] == 'O' and board[1][0] == 'O' or board[1][0] == 'O' and board[2][0] == 'O' or board[0][0] == 'O' and board[2][0] == 'O':#left V
-            for i in range(3):
-                for j in range(3):
-                    if i == 0 and j == 0 or i == 1 and j == 0 or i == 2 and j == 0:
-                        if board[i][j] == " ":
-                            board[i][j] = 'O'                            
-                            offLeftV = False 
-                            return
-    if offMidV:
-        if board[0][1] == 'O' and board[1][1] == 'O' or board[1][1] == 'O' and board[2][1] == 'O' or board[0][1] == 'O' and board[2][1] == 'O':#mid V
-            for i in range(3):
-                for j in range(3):
-                    if i == 0 and j == 1 or i == 1 and j == 1 or i == 2 and j == 1:
-                        if board[i][j] == " ":
-                            board[i][j] = 'O'                            
-                            offMidV = False  
-                            return
-    if offRightV:
-        if board[0][2] == 'O' and board[1][2] == 'O' or board[1][2] == 'O' and board[2][2] == 'O' or board[0][2] == 'O' and board[2][2] == 'O':#right V
-            for i in range(3):
-                for j in range(3):
-                    if i == 0 and j == 2 or i == 1 and j == 2 or i == 2 and j == 2:
-                        if board[i][j] == " ":
-                            board[i][j] = 'O'                            
-                            offRightV = False
-                            return
-# ----------------------------------------------------- left and right angle            
-    if offAngleRight:
-        if board[0][2] == 'O' and board[1][1] == 'O' or board[1][1] == 'O' and board[2][0] == 'O' or board[0][2] == 'O' and board[2][0] == 'O':#TR-BL
-            j = 2
-            for i in range(3):
-                if board[i][j] == " ":
-                    board[i][j] = 'O'
-                    offAngleRight = False
-                    return
-                else:
-                    j -= 1
-                            
-    if offAngleLeft:
-        if board[0][0] == 'O' and board[1][1] == 'O' or board[1][1] == 'O' and board[2][2] == 'O' or board[0][0] == 'O' and board[2][2] == 'O':#TL-BR
-            for i in range(3):
-                if board[i][i] == " ":
-                    board[i][i] = 'O'
-                    offAngleLeft = False
-                    j -= 1
-                    return
-                                                
-# --------------------------------------- L strat            
-    if offTlbm: 
-        if board[0][0] == 'O' and board[2][1] == 'O':# TL BM
-            if board[2][0] == " ":
-                board[2][0] = 'O'
-                offTlbm = False
-                return
-                        
-    if offTlmr:
-        if board[0][0] == 'O' and board[1][2] == 'O':# TL MR
-            if board[0][2] == " ":
-                board[0][2] = 'O'
-                offTlmr = False
-                return
-                        
-    if offTrbm:
-        if board[0][2] == 'O' and board[2][1] == 'O':# TR BM
-            if board[2][2] == " ":
-                board[2][2] = 'O'
-                offTrbm = False
-                return
-                        
-    if offTrml:
-        if board[0][1] == 'O' and board[1][0] == 'O':# TR ML
-            if board[0][0] == " ":
-                board[0][0] = 'O'
-                offTrml = False
-                return
-                        
-    if offTmbr:
-        if board[0][1] == 'O' and board[2][2] == 'O':# TM BR
-            if board[0][2] == " ":
-                board[0][2] = 'O'
-                offTmbr = False
-                return                
-                        
-    if offTmbl:
-        if board[0][1] == 'O' and board[2][0] == 'O':# TM BL
-            if board[0][0] == " ":
-                board[0][0] = 'O'
-                offTmbl = False
-                return                
-                        
-    if offMlbr: 
-        if board[1][0] == 'O' and board[2][2] == 'O':# ML BR
-            if board[2][0] == " ":
-                board[2][0] = 'O'
-                offMlbr = False
-                return                
-                        
-    if offMrbl:
-        if board[1][2] == 'O' and board[2][0] == 'O':# MR BL
-            if board[2][2] == " ":
-                board[2][2] = 'O'
-                offMrbl = False
-                return
-    # defensive strats below----------------------------------horizontal
-    if defTopH:
-        if board[0][0] == 'X' and board[0][1] == 'X' or board[0][1] == 'X' and board[0][2] == 'X' or board[0][0] == 'X' and board[0][2] == 'X':#Top H
-            for i in range(3):
-                if board[0][i] == " ":
-                    board[0][i] = 'O'                    
-                    defTopH = False
-                    return                    
-    if defMidH:
-        if board[1][0] == 'X' and board[1][1] == 'X' or board[1][1] == 'X' and board[1][2] == 'X' or board[1][0] == 'X' and board[1][2] == 'X':#Mid H
-            for i in range(3):
-                if board[1][i] == " ":
-                    board[1][i] = 'O'                    
-                    defMidH = False
-                    return
-    if defBottomH:
-        if board[2][0] == 'X' and board[2][1] == 'X' or board[2][1] == 'X' and board[2][2] == 'X' or board[2][0] == 'X' and board[2][2] == 'X':#Low H
-            for i in range(3):
-                if board[2][i] == " ":
-                    board[2][i] = 'O'                    
-                    defBottomH = False
-                    return                             
-    # -------------------------------------- vertical            
-    if defLeftV:
-        if board[0][0] == 'X' and board[1][0] == 'X' or board[1][0] == 'X' and board[2][0] == 'X' or board[0][0] == 'X' and board[2][0] == 'X':#left V
-            for i in range(3):
-                for j in range(3):
-                    if i == 0 and j == 0 or i == 1 and j == 0 or i == 2 and j == 0:
-                        if board[i][j] == " ":
-                            board[i][j] = 'O'                            
-                            defLeftV = False
-                            return
-    if defMidV:
-        if board[0][1] == 'X' and board[1][1] == 'X' or board[1][1] == 'X' and board[2][1] == 'X' or board[0][1] == 'X' and board[2][1] == 'X':#mid V
-            for i in range(3):
-                for j in range(3):
-                    if i == 0 and j == 1 or i == 1 and j == 1 or i == 2 and j == 1:
-                        if board[i][j] == " ":
-                            board[i][j] = 'O'                            
-                            defMidV = False
-                            return
-    if defRightV:
-        if board[0][2] == 'X' and board[1][2] == 'X' or board[1][2] == 'X' and board[2][2] == 'X' or board[0][2] == 'X' and board[2][2] == 'X':#right V
-            for i in range(3):
-                for j in range(3):
-                    if i == 0 and j == 2 or i == 1 and j == 2 or i == 2 and j == 2:
-                        if board[i][j] == " ":
-                            board[i][j] = 'O'
-                            defRightV = False  
-                            return
-    # ----------------------------------------------------- left and right angle
-            
-    if defAngleLeft:
-        if board[0][2] == 'X' and board[1][1] == 'X' or board[1][1] == 'X' and board[2][0] == 'X' or board[0][2] == 'X' and board[2][0] == 'X':#TR-BL
-            j = 2
-            for i in range(3):
-                if board[i][j] == " ":
-                    board[i][j] = 'O'
-                    defAngleLeft = False
-                    j-=1
-                    return                   
-                            
-    if defAngleRight:
-        if board[0][0] == 'X' and board[1][1] == 'X' or board[1][1] == 'X' and board[2][2] == 'X' or board[0][0] == 'X' and board[2][2] == 'X':#TL-BR
-            for i in range(3):
-                if board[i][i] == " ":
-                    board[i][i] = 'O'
-                    defAngleRight = False
-                    j-1
-                    return                                                
-    # --------------------------------------- L strat            
-    if defTlbm:
-        if board[0][0] == 'X' and board[2][1] == 'X':# TL BM
-            if board[2][0] == " ":
-                board[2][0] = 'O'
-                defTlbm = False
-                return
-                        
-    if defTlmr:
-        if board[0][0] == 'X' and board[1][2] == 'X':# TL MR
-            if board[0][2] == " ":
-                board[0][2] = 'O'
-                defTlmr = False
-                return                
-                        
-    if defTrbm:
-        if board[0][2] == 'X' and board[2][1] == 'X':# TR BM
-            if board[2][2] == " ":
-                board[2][2] = 'O'
-                defTrbm = False
-                return                
-                        
-    if defTrml:
-        if board[0][1] == 'X' and board[1][0] == 'X':# TR ML
-            if board[0][0] == " ":
-                board[0][0] = 'O'
-                defTrml = False
-                return
-                        
-    if defTmbr:
-        if board[0][1] == 'X' and board[2][2] == 'X':# TM BR
-            if board[0][2] == " ":
-                board[0][2] = 'O'
-                defTmbr = False
-                return
-                        
-    if defTmbl:
-        if board[0][1] == 'X' and board[2][0] == 'X':# TM BL
-            if board[0][0] == " ":
-                board[0][0] = 'O'
-                defTmbl = False
-                return
-                        
-    if defMlbr:
-        if board[1][0] == 'X' and board[2][2] == 'X':# ML BR
-            if board[2][0] == " ":
-                board[2][0] = 'O'
-                defMlbr = False
-                return
-                        
-    if defMrbl:
-        if board[1][2] == 'X' and board[2][0] == 'X':# MR BL
-            if board[2][2] == " ":
-                board[2][2] = 'O'
-                defMrbl = False
-                return
-                                        
-    # first round only -----            
-    if firstRound:# for corner starts - TL TR BL BR
+    global board, xAndO, top_right_bottom_left, first_round, defense, left_vertical, right_vertical, mid_vertical, top_horizontal, top_left_bottom_right, mid_horizontal, bottom_horizontal, left_angle, right_angle, top_left_bottom_middle, top_left_middle_right, top_right_bottom_middle, top_right_middle_left, top_middle_bottom_right, top_middle_bottom_left, middle_left_bottom_right, middle_right_bottom_left
+    print("Opponent is choosing...\n")
+    # first round only -----
+    if first_round:  # for corner starts - TL TR BL BR
         if board[0][0] == 'X' or board[0][2] == 'X' or board[2][0] == 'X' or board[2][2] == 'X':
             board[1][1] = 'O'
-            firstRound = False
+            first_round = False
             return
-                                
-        # up down left right xPos
-        if board[0][1] == 'X':# TM 
+        elif board[0][1] == 'X':  # TM | up down left right xPos
             board[2][1] = 'O'
-            firstRound = False
+            first_round = False
             return
-                    
-        if board[2][1] == 'X':# BM
+        elif board[2][1] == 'X':  # BM
             board[0][1] = 'O'
-            firstRound = False
+            first_round = False
             return
-                    
-        if board[1][0] == 'X':# LM
+        elif board[1][0] == 'X':  # LM
             board[1][2] = 'O'
-            firstRound = False
+            first_round = False
             return
-                    
-        if board[1][2] == 'X':# RM
+        elif board[1][2] == 'X':  # RM
             board[1][0] = 'O'
-            firstRound = False
+            first_round = False
             return
-        
-    for i in range(1):
-        opChoice = randint(0,8)# if no strat is available it will randomly choose
-        if opChoice == 0:
-            if board[0][0] == " ":
-                board[0][0] = 'O'
-                return                                            
-            else:
-                i = 0
-        elif opChoice == 1:
-            if board[0][1] == " ":
-                board[0][1] = 'O'
-                return                
-            else:
-                i = 0
-        elif opChoice == 2:
-            if board[0][2] == " ":
-                board[0][2] = 'O'
-                return                
-            else:
-                i = 0
-        elif opChoice == 3:
-            if board[1][0] == " ":
-                board[1][0] = 'O'
-                return                
-            else:
-                i = 0
-        elif opChoice == 4:
-            if board[1][1] == " ":
-                board[1][1] = 'O'
-                return                
-            else:
-                    i = 0
-        elif opChoice == 5:
-            if board[1][2] == " ":
-                board[1][2] = 'O'
-                return                
-            else:
-                i = 0
-        elif opChoice == 6:
+    if defense:
+        xAndO = 'X'
+    for checker in range(2):  # This covers horizontal vertical angle #Checks if the opponent can win on its move
+        if checker == 0:
+            xAndO = 'O'
+        else:
+            xAndO = 'X'
+        if top_horizontal:
+            if board[0][0] == xAndO and board[0][1] == xAndO or board[0][1] == xAndO and board[0][2] == xAndO or \
+                    board[0][0] == xAndO and board[0][2] == xAndO:  # Top H
+                for i in range(3):
+                    if board[0][i] == " ":
+                        board[0][i] = 'O'
+                        top_horizontal = False
+                        print("top H")
+                        return
+        if mid_horizontal:
+            if board[1][0] == xAndO and board[1][1] == xAndO or board[1][1] == xAndO and board[1][2] == xAndO or \
+                    board[1][0] == xAndO and board[1][2] == xAndO:  # Mid H
+                for i in range(3):
+                    if board[1][i] == " ":
+                        board[1][i] = 'O'
+                        mid_horizontal = False
+                        print("mid H")
+                        return
+        if bottom_horizontal:
+            if board[2][0] == xAndO and board[2][1] == xAndO or board[2][1] == xAndO and board[2][2] == xAndO or \
+                    board[2][0] == xAndO and board[2][2] == xAndO:  # Low H
+                for i in range(3):
+                    if board[2][i] == " ":
+                        board[2][i] = 'O'
+                        bottom_horizontal = False
+                        print("Bot H")
+                        return
+        # --------------------------------------vertical
+        if left_vertical:
+            if board[0][0] == xAndO and board[1][0] == xAndO or board[1][0] == xAndO and board[2][0] == xAndO or \
+                    board[0][0] == xAndO and board[2][0] == xAndO:  # left V
+                for i in range(3):
+                    for j in range(3):
+                        if i == 0 and j == 0 or i == 1 and j == 0 or i == 2 and j == 0:
+                            if board[i][j] == " ":
+                                board[i][j] = 'O'
+                                left_vertical = False
+                                print("left V")
+                                return
+        if mid_vertical:
+            if board[0][1] == xAndO and board[1][1] == xAndO or board[1][1] == xAndO and board[2][1] == xAndO or \
+                    board[0][1] == xAndO and board[2][1] == xAndO:  # mid V
+                for i in range(3):
+                    for j in range(3):
+                        if i == 0 and j == 1 or i == 1 and j == 1 or i == 2 and j == 1:
+                            if board[i][j] == " ":
+                                board[i][j] = 'O'
+                                mid_vertical = False
+                                print("mid V")
+                                return
+        if right_vertical:
+            if board[0][2] == xAndO and board[1][2] == xAndO or board[1][2] == xAndO and board[2][2] == xAndO or \
+                    board[0][2] == xAndO and board[2][2] == xAndO:  # right V
+                for i in range(3):
+                    for j in range(3):
+                        if i == 0 and j == 2 or i == 1 and j == 2 or i == 2 and j == 2:
+                            if board[i][j] == " ":
+                                board[i][j] = 'O'
+                                right_vertical = False
+                                print("right V")
+                                return
+        # ----------------------------------------------------- left and right angle
+        if left_angle:
+            if board[0][2] == xAndO and board[1][1] == xAndO or board[1][1] == xAndO and board[2][0] == xAndO or \
+                    board[0][2] == xAndO and board[2][0] == xAndO:  # TR-BL
+                j = 2
+                for i in range(3):
+                    if board[i][j] == " ":
+                        board[i][j] = 'O'
+                        left_angle = False
+                        print("left A")
+                        return
+                    j -= 1
+
+        if right_angle:
+            if board[0][0] == xAndO and board[1][1] == xAndO or board[1][1] == xAndO and board[2][2] == xAndO or \
+                    board[0][0] == xAndO and board[2][2] == xAndO:  # TL-BR
+                for i in range(3):
+                    if board[i][i] == " ":
+                        board[i][i] = 'O'
+                        right_angle = False
+                        print("right A")
+                        return
+        # --------------------------------------- L strat
+    if top_left_bottom_middle:
+        if board[0][0] == xAndO and board[2][1] == xAndO:  # TL BM
             if board[2][0] == " ":
                 board[2][0] = 'O'
-                return                
-            else:
-                i = 0
-        elif opChoice == 7:
-            if board[2][1] == " ":
-                board[2][1] = 'O'
-                return                
-            else:
-                i = 0
-        elif opChoice == 8:
+                top_left_bottom_middle = False
+                print("topLeftBottomMiddle")
+                return
+
+    if top_left_middle_right:
+        if board[0][0] == xAndO and board[1][2] == xAndO:  # TL MR
+            if board[0][2] == " ":
+                board[0][2] = 'O'
+                top_left_middle_right = False
+                print("topLeftMiddleRight")
+                return
+
+    if top_right_bottom_middle:
+        if board[0][2] == xAndO and board[2][1] == xAndO:  # TR BM
             if board[2][2] == " ":
                 board[2][2] = 'O'
-                return                
-            else:
-                i = 0
+                top_right_bottom_middle = False
+                print("topRightBottomMiddle")
+                return
+
+    if top_right_middle_left:
+        if board[0][1] == xAndO and board[1][0] == xAndO:  # TR ML
+            if board[0][0] == " ":
+                board[0][0] = 'O'
+                top_right_middle_left = False
+                print("topRightMiddleLeft")
+                return
+
+    if top_middle_bottom_right:
+        if board[0][1] == xAndO and board[2][2] == xAndO:  # TM BR
+            if board[0][2] == " ":
+                board[0][2] = 'O'
+                top_middle_bottom_right = False
+                print("topMiddleBottomRight")
+                return
+
+    if top_middle_bottom_left:
+        if board[0][1] == xAndO and board[2][0] == xAndO:  # TM BL
+            if board[0][0] == " ":
+                board[0][0] = 'O'
+                top_middle_bottom_left = False
+                print("topMiddleBottomLeft")
+                return
+
+    if middle_left_bottom_right:
+        if board[1][0] == xAndO and board[2][2] == xAndO:  # ML BR
+            if board[2][0] == " ":
+                board[2][0] = 'O'
+                middle_left_bottom_right = False
+                print("middleLeftBottomRight")
+                return
+
+    if middle_right_bottom_left:
+        if board[1][2] == xAndO and board[2][0] == xAndO:  # MR BL
+            if board[2][2] == " ":
+                board[2][2] = 'O'
+                middle_right_bottom_left = False
+                print("middleRightBottomLeft")
+                return
+
+    if top_right_bottom_left:
+        if board[0][2] == xAndO and board[2][0] == xAndO:
+            if xAndO == 'X':
+                if xAndO == 'X':
+                    if board[0][1] == " ":
+                        board[0][1] = 'O'
+                        top_right_bottom_left = False
+                        return
+                    elif board[1][0] == " ":
+                        board[1][0] = 'O'
+                        top_right_bottom_left = False
+                        return
+                    elif board[1][2] == " ":
+                        board[1][2] = 'O'
+                        top_right_bottom_left = False
+                        return
+                    elif board[2][1] == " ":
+                        board[2][1] = 'O'
+                        top_right_bottom_left = False
+                        return
+                else:# opp attack
+                    if board[0][0] == " ":
+                        board[0][0] = 'O'
+                        top_right_bottom_left = False
+                        return
+                    elif board[2][2] == " ":
+                        board[2][2] = 'O'
+                        top_right_bottom_left = False
+                        return
+    if top_left_bottom_right:
+        if board[0][0] == xAndO and board[2][2] == xAndO:
+            if xAndO == 'X':
+                if board[0][1] == " ":
+                    board[0][1] = 'O'
+                    top_left_bottom_right = False
+                    return
+                elif board[1][0] == " ":
+                    board[1][0] = 'O'
+                    top_left_bottom_right = False
+                    return
+                elif board[1][2] == " ":
+                    board[1][2] = 'O'
+                    top_left_bottom_right = False
+                    return
+                elif board[2][1] == " ":
+                    board[2][1] = 'O'
+                    top_left_bottom_right = False
+                    return
+            else:# opp attack
+                if board[2][0] == " ":
+                    board[2][0] = 'O'
+                    top_left_bottom_right = False
+                    return
+                elif board[0][2] == " ":
+                    board[0][2] = 'O'
+                    top_left_bottom_right = False
+                    return
+                    
+        for row in range(3):#if no strats available pick the first available
+            for column in range(3):
+                if board[row][column] == " ":
+                    board[row][column] = "O"
+                    return
+
 run()
